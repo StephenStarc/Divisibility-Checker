@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divisibility Checker</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-image: url('./math_background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        #numberForm {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+        #numberInput {
+            flex-grow: 1;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+
+            font-weight: bold;
+        }
+        .mark {
+            font-size: 1.2rem;
+        }
+        .info-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 24px;
+            background-color: hsl(0, 0%, 100%);
+            padding: 5px 13px;
+            border-radius: 50%;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Divisibility Checker</h1>
+        <div class="info-icon" id="infoIcon">ℹ️</div>
+        <form id="numberForm">
+            <input type="number" id="numberInput" placeholder="Enter a number" required />
+            <button type="submit">Check</button>
+        </form>
+        <div id="tableContainer"></div>
+    </div>
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>About Divisibility Checker</h2>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/qldnJxpbtFY?si=qcIVD5zS72wOd1Kr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <p>This Divisibility Checker is made based on divisibility method taught by Krista King</p>
+            <h3>How it is calculated</h3>
+            <h4>Divisibility Check for 2</h4>
+            <p>To check if a number is divisible by 2. You have get the last number and check if it is even. If it is Even that it is divisible and if it is Odd then it is not divisible</p>
+            
+            <h4>Divisibility Check for 3</h4>
+            <p>For 3, Add all the number to together and Check if it is divisible by 3. Ex: if the number is 123 then 1 + 2 + 3 = 6. 6 is divisible by 3.</p>
+
+            <h4>Divisibility Check for 4</h4>
+            <p>Get Last two digit and check if it is divisible 4. Ex: 124 - the last two digits are 24 and 24 is divisible by 4.</p>
+
+            <h4>Divisibility Check for 5</h4>
+            <p>Check if the last digit ends with either 5 or 0. Ex: 125 - it ends with 5, so it is divisible by 5</p>
+
+            <h4>Divisibility Check for 6</h4>
+            <p>For 6, You just have to check it is divisible by both 2 and 3. Ex: 126 - Let's check if it is divisble by 2 - You have get the last digit which is 6, so it divisible by 2. Let's check if it is divisible by 3 - [1 + 2 + 6 = 9] and 9 is divisible by 3. so 126 is divisible by both 2 and 3, so it is divisible by 6</p>
+
+            <h4>Divisibility Check for 7</h4>
+            <p>This is little tricky. You have get the last digit and multiple with 5. Add that value with other remaining value. Ex: 127 - Get the last digit which is 7 and multiple it with 5 you get 35 and add with remaining value. 12 + 35 = 47 which is not divisible by 7. I am sorry, i don't know why fuck i 127 because that is a right but worse example. because 47 is divisible by 1 and 47 itself.</p>
+            <p>Let's take 126. Get the last digit - 6 and mutiple with 5 and you get 30. Add 30 with remaining values 12 + 30 and you'll get 42. 42 is divisible by 7</p>
+
+            <h4>Divisibility Check for 8</h4>
+            <p>You have to get the last 3 digits and check if it is divisible by 8. i might not look effective but i will help you if the values you divisible is too big. Ex: 53636544. get the last 3 digit and check if it is divisible by 8. 544 is divisible by 8, so there you go.</p>
+
+            <h4>Divisibility Check for 9</h4>
+            <p>Just like checking divisible by 3. you have add the numbers to together and check if it divisible by 9. so 126 would be 1 + 2 + 6 = 9. You know 9 is divisible by 9.</p>
+
+            <h4>Divisibility Check for 10</h4>
+            <p>Just check if the last digit ends with 0. Ex: For 200, there is 0 at the end, so it is divisible by 10</p>
+        </div>
+    </div>
+    <script>
+        const default_values = [null, null, null, null, null, null, null, null, null];
+        
+        document.getElementById('numberForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let inputValue = document.getElementById('numberInput').value;
+            inputValue = Number(inputValue)
+            console.log('Submitted value:', inputValue);
+            for(i=2;i<=10;i++){
+                switch(i){
+                    case 2:
+                    isDivisibleBy2(inputValue,i)
+                    break
+                    case 3:
+                        isDivisibleBy3(inputValue,i)
+                        break;    
+                    case 4:
+                        isDivisibleBy4(inputValue,i)
+                        break;
+                    case 5:
+                        isDivisibleBy5(inputValue,i)
+                        break;
+                    case 6:
+                        isDivisibleBy6(inputValue,i)
+                        break;
+                    case 7:
+                        isDivisibleBy7(inputValue,i)
+                        break;
+                    case 8:
+                        isDivisibleBy8(inputValue,i)
+                        break;
+                    case 9:
+                        isDivisibleBy9(inputValue,i)
+                        break;
+                    case 10:
+                        isDivisibleBy10(inputValue,i)
+                        break;
+                    }
+            }
+            createTable()
+        });
+
+    function isDivisibleBy2(num,currentI){
+            // Convert the input to a number
+            num = Number(num);
+            
+            // Get the last digit
+            const lastDigit = Math.abs(num % 10);
+
+            //Checking if the last Digit is Even
+            if(lastDigit % 2 === 0){
+                default_values[currentI - 2] = true
+            }else{
+                default_values[currentI - 2] = false
+            }
+        }
+
+    function isDivisibleBy3(num,currentI){
+            // Convert the input to a number
+            num = Number(num);
+            
+            // Check if Entered Value is single digit
+            if (num >= 0 && num <= 9){
+                SingleDigit(num,currentI)
+            }else{
+                  // Convert number to string and split into array of digits
+                  const digits = String(num).split('').map(Number);
+                  
+                  // Sum all digits
+                  const sum = digits.reduce((a,b) => a+b,0)
+
+                // Check if sum is divisible by 3
+                if (num % 3 == 0){
+                    default_values[currentI - 2] = true
+                }else{
+                    default_values[currentI - 2] = false
+            }
+        }
+    }
+    
+    function isDivisibleBy4(num,currentI){
+        // Convert the input to a number
+        num = Number(num);
+
+            // Check if Entered Value is single digit
+            if (num >= 0 && num <= 9){
+                SingleDigit(num,currentI)
+            }else{
+                // Get the last two digits
+                const lastTwoDigits = num % 100;
+                // console.log("Last two digits:", lastTwoDigits);
+            
+            if(lastTwoDigits % 4 === 0){
+                default_values[currentI - 2] = true
+                // console.log("Divisible by 4")
+            }else{
+                default_values[currentI - 2] = false
+                // console.log("Not Divisible by 4")
+            }
+            }
+    }
+
+    function isDivisibleBy5(num,currentI){
+        //Get the last digit
+        const lastDigit = num % 10
+
+        if(lastDigit == 5 | lastDigit == 0){
+            // console.log("Last digit is 5 or 10")
+            default_values[currentI - 2] = true
+        }else{
+            default_values[currentI - 2] = false
+        }
+
+    }
+
+    function isDivisibleBy6(num,currentI){
+        //Checking if it divisible by both 2 and 3
+        if(default_values[0] & default_values[1]){
+            default_values[currentI - 2] = true
+        }else{
+            default_values[currentI - 2] = false
+        }
+    }
+
+    function isDivisibleBy7(num,currentI){
+        // Get the last digit
+    const lastDigit = num % 10;
+
+    //Multiple 5 with last digit
+    const multipledby5 = lastDigit * 5
+
+    // Get all digits except the last one
+    const allButLastDigit = Math.floor(num / 10);
+
+    //Add mutilpledby5 and allButLastDigit
+    const newValue = multipledby5 + allButLastDigit
+    if (num >= 0 && num <= 9){
+                SingleDigit(num,currentI)
+            }else{
+               if(newValue % 7 == 0){
+                default_values[currentI - 2] = true
+        }else{
+            default_values[currentI - 2] = false
+        }
+            }
+    }
+
+    function isDivisibleBy8(num,currentI){
+        if (num <= 99){
+            SingleDigit(num,currentI)
+        }else{
+            const lastThreeDigits = num % 1000
+            SingleDigit(lastThreeDigits,currentI)
+        }
+    }
+
+    function isDivisibleBy9(num,currentI){
+        if(num > 0 & num < 10){
+            SingleDigit(num,currentI)
+        }else{
+            const stringNum = String(num)
+            const splitNum = stringNum.split('').map(Number)
+
+            const addedValue = splitNum.reduce((a,b) => a+b, 0)
+            SingleDigit(addedValue,currentI)
+        }
+    }
+
+    function isDivisibleBy10(num,currentI){
+        if(num > 0 & num < 10){
+            SingleDigit(num,currentI)
+        }else{
+            const lastDigit = num % 10
+
+            if(lastDigit === 0){
+                default_values[currentI - 2] = true
+            }else{
+                default_values[currentI - 2] = false
+            }
+        }
+    }
+    function SingleDigit(num,currentI){
+            if (num % currentI == 0){
+                    default_values[currentI - 2] = true
+                }else{
+                    default_values[currentI - 2] = false
+                }
+        }
+
+        function getMarkSymbol(value) {
+            if (value === null) return '-';
+            if (value === true) return '✓';
+            if (value === false) return '✗';
+        }
+
+        function createTable() {
+            const tableContainer = document.getElementById('tableContainer');
+            const table = document.createElement('table');
+            const headerRow = document.createElement('tr');
+
+            for (let i = 2; i <= 10; i++) {
+                const th = document.createElement('th');
+                th.textContent = i;
+                headerRow.appendChild(th);
+            }
+
+            table.appendChild(headerRow);
+
+            const dataRow = document.createElement('tr');
+            default_values.forEach((value, index) => {
+                const td = document.createElement('td');
+                td.textContent = getMarkSymbol(value);
+                dataRow.appendChild(td);
+            });
+
+            table.appendChild(dataRow);
+            tableContainer.appendChild(table);
+        }
+
+        // Modal functionality
+        const modal = document.getElementById("infoModal");
+        const infoIcon = document.getElementById("infoIcon");
+        const closeBtn = document.getElementsByClassName("close")[0];
+
+        infoIcon.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+    </script>
+</body>
+</html>
